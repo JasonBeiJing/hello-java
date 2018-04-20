@@ -37,7 +37,6 @@ public class ConcurrentExchanger {
 				doExchangeWork(data, exchanger);
 			}
 		});
-		
 		executor.shutdown();
 		
 //		10-持有-[A, B, C, D, E, F, G]
