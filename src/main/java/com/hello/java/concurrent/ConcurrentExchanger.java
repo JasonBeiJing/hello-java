@@ -6,7 +6,7 @@ import java.util.concurrent.Exchanger;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ConcurrentOfExchanger {
+public class ConcurrentExchanger {
 	private static final ExecutorService executor = Executors.newCachedThreadPool();
 	private static final Exchanger<List<String>> exchanger = new Exchanger<>();
 	
