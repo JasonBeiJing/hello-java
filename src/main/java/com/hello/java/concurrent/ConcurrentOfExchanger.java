@@ -1,4 +1,4 @@
-package com.hello.java;
+package com.hello.java.concurrent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.concurrent.Exchanger;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class DemoOfExchanger {
+public class ConcurrentOfExchanger {
 	private static final ExecutorService executor = Executors.newCachedThreadPool();
 	private static final Exchanger<List<String>> exchanger = new Exchanger<>();
 	

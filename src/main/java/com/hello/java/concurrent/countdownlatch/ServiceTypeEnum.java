@@ -1,4 +1,4 @@
-package com.hello.java.countdownlatch;
+package com.hello.java.concurrent.countdownlatch;
 
 public enum ServiceTypeEnum {
 

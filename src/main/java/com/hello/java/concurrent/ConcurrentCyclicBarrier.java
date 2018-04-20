@@ -1,4 +1,4 @@
-package com.hello.java;
+package com.hello.java.concurrent;
 
 import java.util.ArrayList;
 import java.util.List;
