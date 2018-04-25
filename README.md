@@ -1,2 +1,2 @@
 # hello-java
-come common class cases in java
+some common class cases in java
