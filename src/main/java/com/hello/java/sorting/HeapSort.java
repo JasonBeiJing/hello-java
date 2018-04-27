@@ -1,5 +1,7 @@
 package com.hello.java.sorting;
 
+import com.hello.java.sorting.util.RandomArrayUtil;
+
 //形式上是一棵完全二叉树，实际存储在内存中的是一个数组
 
 /**
@@ -32,7 +34,7 @@ package com.hello.java.sorting;
 public class HeapSort {
 
 	public static void main(String[] args) {
-		int[] a = { 9, 8, 7, 6, 5, 4, 3, 2, 1 };
+		int[] a = RandomArrayUtil.getRandomInt(100);
 		sort(a);
 		for (int i = 0; i < a.length; i++) {
 			System.out.println(a[i]);
@@ -47,7 +49,11 @@ public class HeapSort {
 		}
 		// 2.调整堆结构+交换堆顶元素与末尾元素
 		for (int j = arr.length - 1; j > 0; j--) {
-			swap(arr, 0, j);// 将堆顶元素与末尾元素进行交换
+			// 将堆顶元素与末尾元素进行交换
+			int temp = arr[0];
+			arr[0] = arr[j];
+			arr[j] = temp;
+
 			adjustHeap(arr, 0, j);// 重新对堆进行调整
 		}
 
@@ -72,9 +78,4 @@ public class HeapSort {
 		arr[i] = temp;// 将temp值放到最终的位置
 	}
 
-	public static void swap(int[] arr, int a, int b) {
-		int temp = arr[a];
-		arr[a] = arr[b];
-		arr[b] = temp;
-	}
 }
