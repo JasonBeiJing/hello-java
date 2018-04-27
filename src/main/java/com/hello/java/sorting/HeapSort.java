@@ -33,9 +33,7 @@ public class HeapSort {
 
 	public static void main(String[] args) {
 		int[] a = { 9, 8, 7, 6, 5, 4, 3, 2, 1 };
-		
 		sort(a);
-		
 		for (int i = 0; i < a.length; i++) {
 			System.out.println(a[i]);
 		}
@@ -57,10 +55,6 @@ public class HeapSort {
 
 	/**
 	 * 调整大顶堆（仅是调整过程，建立在大顶堆已构建的基础上）
-	 * 
-	 * @param arr
-	 * @param i
-	 * @param length
 	 */
 	public static void adjustHeap(int[] arr, int i, int length) {
 		int temp = arr[i];// 先取出当前元素i
@@ -78,13 +72,6 @@ public class HeapSort {
 		arr[i] = temp;// 将temp值放到最终的位置
 	}
 
-	/**
-	 * 交换元素
-	 * 
-	 * @param arr
-	 * @param a
-	 * @param b
-	 */
 	public static void swap(int[] arr, int a, int b) {
 		int temp = arr[a];
 		arr[a] = arr[b];
