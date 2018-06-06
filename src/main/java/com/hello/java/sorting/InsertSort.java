@@ -5,7 +5,7 @@ import com.hello.java.sorting.util.RandomArrayUtil;
 public class InsertSort {
 
 	public static void main(String[] args) {
-		int[] a = RandomArrayUtil.getRandomInt(100000);
+		int[] a = RandomArrayUtil.getRandomInt(100);
 
 		sort(a);
 

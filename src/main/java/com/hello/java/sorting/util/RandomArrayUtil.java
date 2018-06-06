@@ -3,9 +3,9 @@ package com.hello.java.sorting.util;
 import java.util.Random;
 
 public class RandomArrayUtil {
+	private static final Random rd = new Random();
 
 	public static int[] getRandomInt(int length) {
-		Random rd = new Random();
 		
 		int[] out = new int[length];
 		for(int i=0; i<length; i++) {
