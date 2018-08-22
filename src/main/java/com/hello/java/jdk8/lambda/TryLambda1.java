@@ -9,35 +9,30 @@ package com.hello.java.jdk8.lambda;
  */
 public class TryLambda1 {
 	public static void main(String args[]) {
-		// 类型声明
+		//*****************************无参数**********************************//
+		HelloService helloService1 = () -> System.out.println("无参数，一条语句");
+		helloService1.sayHi();
+		//无参数,如果Lambda表达式的主体多于一条语句，那么需要大括号{}
+		HelloService helloService2 = () -> {
+			System.out.println("有参数，多条语句 - 1");
+			System.out.println("有参数，多条语句 - 2");
+		};
+		helloService2.sayHi();
+		
+		//*****************************有单个参数，可以无参数括号**********************************//
+		GreetingService greetService1 = (message) -> System.out.println(message);
+		greetService1.sayMessage("只有一个参数，可以用括号");
+		//如果只有一个参数，可以不用括号
+		GreetingService greetService2 = message -> System.out.println( message);
+		greetService2.sayMessage("只有一个参数，可以不用括号");
+	
+		//*****************************有多个参数，必须有参数括号**********************************//
+		//类型声明
 		MathOperation addition = (int a, int b) -> a + b;
+		System.out.println("有返回值，多个参数，必须有参数括号，声明类型： 10 + 5 = " + addition.operation(10, 5));
 		// 不用类型声明
 		MathOperation subtraction = (a, b) -> a - b;
-		// 大括号中的返回语句
-		MathOperation multiplication = (int a, int b) -> {
-			return a * b;
-		};
-		// 没有大括号及返回语句
-		MathOperation division = (int a, int b) -> a / b;
-
-		System.out.println("10 + 5 = " + operate(10, 5, addition));
-		System.out.println("10 - 5 = " + operate(10, 5, subtraction));
-		System.out.println("10 x 5 = " + operate(10, 5, multiplication));
-		System.out.println("10 / 5 = " + operate(10, 5, division));
-
-		// 不用括号
-		GreetingService greetService1 = message -> System.out.println("Hello, " + message);
-		greetService1.sayMessage("Runoob");
-		// 用括号
-		GreetingService greetService2 = (message) -> System.out.println("Hello, " + message);
-		greetService2.sayMessage("Google");
-		
-		//无参数,如果Lambda表达式的主体多于一条语句，那么需要大括号{}
-		HelloService helloService = () -> {
-			System.out.println("Hello, world!");
-			System.out.println("Hello, China!");
-		};
-		helloService.sayHi();
+		System.out.println("有返回值，多个参数，必须有参数括号，不声明类型：10 - 5 = " + subtraction.operation(10, 5));
 	}
 
 	@FunctionalInterface
@@ -45,6 +40,7 @@ public class TryLambda1 {
 		int operation(int a, int b);
 	}
 
+	@FunctionalInterface
 	interface GreetingService {
 		void sayMessage(String message);
 	}
@@ -52,9 +48,5 @@ public class TryLambda1 {
 	@FunctionalInterface
 	interface HelloService{
 		void sayHi();
-	}
-
-	static int operate(int a, int b, MathOperation mathOperation) {
-		return mathOperation.operation(a, b);
 	}
 }
