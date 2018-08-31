@@ -1,5 +1,6 @@
 package com.hello.java.jdk8.date_time;
 
+import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,9 +21,7 @@ public class TryDateTime {
 
 		System.err.println("LocalDate.of(2012, Month.JULY, 12) ====> " + LocalDate.of(2012, Month.JULY, 12));
 
-		// ´Ó1970-01-01¿ªÊ¼¼ÓÌìÊý
 		System.err.println("LocalDate.ofEpochDay(15) ====> " + LocalDate.ofEpochDay(15));
-		// ´Ó¸ø¶¨µÄÄê·Ý¿ªÊ¼¼ÓÌìÊý
 		System.err.println("LocalDate.ofYearDay(2018, 10) ====> " + LocalDate.ofYearDay(2018, 10));
 	}
 
@@ -33,9 +32,7 @@ public class TryDateTime {
 
 		System.err.println("LocalTime.of(5, 10, 20, 30) ====> " + LocalTime.of(5, 10, 20, 30));
 
-		// ´Ó00:00:00 ¿ªÊ¼¼ÓÄÉÃë
 		System.err.println("LocalTime.ofNanoOfDay(10) ====> " + LocalTime.ofNanoOfDay(10));
-		// ´Ó00:00:00 ¿ªÊ¼¼ÓÃë
 		System.err.println("LocalTime.ofSecondOfDay(10) ====> " + LocalTime.ofSecondOfDay(10));
 	}
 
@@ -49,14 +46,36 @@ public class TryDateTime {
 		System.err.println("LocalDateTime.of(LocalDate.now(), LocalTime.now()) ====> "
 				+ LocalDateTime.of(LocalDate.now(), LocalTime.now()));
 
-		// ÒÔ1970-01-01 00:00:00 0000Îª»ù´¡£¬ÍùºóÍÆ¶àÉÙÃëµÃµ½Ò»¸öÈÕÖ¾
 		System.err.println("LocalDateTime.ofEpochSecond(3600, 20, ZoneOffset.UTC) ====> "
 				+ LocalDateTime.ofEpochSecond(3600, 20, ZoneOffset.UTC));
 
 	}
 
 	public static void tryInstant() {
-
+		Instant now = Instant.now();
+		System.err.println(" ==== Instant.getEpochSecond() === " + now.getEpochSecond());
+		System.err.println(" ==== Instant.getNano() === " + now.getNano());
+		System.err.println(" ==== Instant.toEpochMilli() === " + now.toEpochMilli());
+		System.err.println(" ==== System.currentTimeMillis() === " + System.currentTimeMillis());
+		
+		LocalDateTime ldt = LocalDateTime.now();
+		Instant i = ldt.toInstant(ZoneOffset.of("+8"));
+		Instant j = ldt.toInstant(ZoneOffset.of("+2")); //???????????
+		System.out.println(i.toEpochMilli() + " ---- " + j.toEpochMilli());
+		
+	}
+	
+	//ä¸€ä¸ªDurationå¯¹è±¡è¡¨ç¤ºä¸¤ä¸ªInstanté—´çš„ä¸€æ®µæ—¶é—´
+	public static void tryDuration() {
+		
+	}
+	
+	public static void tryPeriod () {
+		
+	}
+	
+	public static void tryClock () {
+		Clock.systemUTC().millis();
 	}
 
 	public static void tryDateTimeUtils() {
@@ -108,7 +127,7 @@ public class TryDateTime {
 		System.out.println(dateTime.format(DateTimeFormatter.BASIC_ISO_DATE));
 
 		// Parse examples
-		LocalDateTime dt = LocalDateTime.parse("27::°ËÔÂ::2014 21::39::48", DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss"));
+		LocalDateTime dt = LocalDateTime.parse("27::Â°Ã‹Ã”Ã‚::2014 21::39::48", DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss"));
 		System.out.println("Default format after parsing = " + dt);
 		
 	}
@@ -117,8 +136,8 @@ public class TryDateTime {
 		// tryLocalDate();
 		// tryLocalTime();
 		// tryLocalDateTime();
-		//tryInstant();
+		tryInstant();
 		//tryDateTimeUtils();
-		tryParseDateTime();
+		//tryParseDateTime();
 	}
 }
