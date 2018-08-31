@@ -11,42 +11,30 @@ public class ConcurrentExchanger {
 	private static final Exchanger<List<String>> exchanger = new Exchanger<>();
 	
 	public static void main(String[] args) {
-
-		executor.execute(new Runnable() {
-			@Override
-			public void run() {
-				List<String> data = new ArrayList<>();
-				data.add("A");
-				data.add("B");
-				data.add("C");
-				data.add("D");
-				data.add("E");
-				data.add("F");
-				data.add("G");
-				doExchangeWork(data, exchanger);
-			}
+		executor.execute(() -> {
+			List<String> data = new ArrayList<>();
+			data.add("A");
+			data.add("B");
+			data.add("C");
+			data.add("D");
+			data.add("E");
+			data.add("F");
+			data.add("G");
+			doExchangeWork(data, exchanger);
 		});
-
-		executor.execute(new Runnable() {
-			@Override
-			public void run() {
-				List<String> data = new ArrayList<>();
-				data.add("X");
-				data.add("Y");
-				data.add("Z");
-				doExchangeWork(data, exchanger);
-			}
+		
+		executor.execute(() -> {
+			List<String> data = new ArrayList<>();
+			data.add("X");
+			data.add("Y");
+			data.add("Z");
+			doExchangeWork(data, exchanger);
 		});
+		
 		executor.shutdown();
 		
 //		10-持有-[A, B, C, D, E, F, G]
 //		11-持有-[X, Y, Z]
-//		12-持有-[1, 2, 3]
-//		13-持有-[77, 88, 99]
-//		10-收 到 -[1, 2, 3]
-//		12-收 到 -[A, B, C, D, E, F, G]
-//		11-收 到 -[77, 88, 99]
-//		13-收 到 -[X, Y, Z]
 
 		//只能保证任意两个线程之间进行交换，所以仅适用于两个线程！！！
 
