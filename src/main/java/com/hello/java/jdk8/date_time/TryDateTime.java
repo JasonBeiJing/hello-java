@@ -1,6 +1,7 @@
 package com.hello.java.jdk8.date_time;
 
 import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
+import java.util.concurrent.TimeUnit;
 
 public class TryDateTime {
 
@@ -51,6 +53,16 @@ public class TryDateTime {
 
 	}
 
+	//Instant类在Java日期与时间功能中，表示了时间线上一个确切的点，定义为距离初始时间的时间差（初始时间为GMT 1970年1月1日00:00） 
+	//经测量一天有86400秒，从初始时间开始不断向前移动。
+	/*
+	 * plusSeconds()
+	 * plusMillis()
+	 * plusNanos()
+	 * minusSeconds()
+	 * minusMillis()
+	 * minusNanos()
+	 */
 	public static void tryInstant() {
 		Instant now = Instant.now();
 		System.err.println(" ==== Instant.getEpochSecond() === " + now.getEpochSecond());
@@ -58,24 +70,49 @@ public class TryDateTime {
 		System.err.println(" ==== Instant.toEpochMilli() === " + now.toEpochMilli());
 		System.err.println(" ==== System.currentTimeMillis() === " + System.currentTimeMillis());
 		
-		LocalDateTime ldt = LocalDateTime.now();
-		Instant i = ldt.toInstant(ZoneOffset.of("+8"));
-		Instant j = ldt.toInstant(ZoneOffset.of("+2")); //???????????
-		System.out.println(i.toEpochMilli() + " ---- " + j.toEpochMilli());
-		
 	}
 	
 	//一个Duration对象表示两个Instant间的一段时间
-	public static void tryDuration() {
-		
+	/*
+	  	plusNanos()
+		plusMillis()
+		plusSeconds()
+		plusMinutes()
+		plusHours()
+		plusDays()
+		minusNanos()
+		minusMillis()
+		minusSeconds()
+		minusMinutes()
+		minusHours()
+		minusDays()
+	 */
+	public static void tryDuration() throws InterruptedException {
+		Instant first = Instant.now();
+		TimeUnit.SECONDS.sleep(2);
+		Instant second = Instant.now();
+		Duration duration = Duration.between(first, second);
+		System.err.println(" == Duration == " + duration.getSeconds());
 	}
 	
 	public static void tryPeriod () {
-		
+		LocalDate startDateInclusive = LocalDate.of(2018, Month.AUGUST, 15);
+		LocalDate endDateExclusive = LocalDate.of(2018, Month.AUGUST, 17);
+		Period p = Period.between(startDateInclusive, endDateExclusive);
+		System.err.println(" == Period == " + p.getDays());
 	}
 	
+	//Clock类提供了访问当前日期和时间的方法
 	public static void tryClock () {
-		Clock.systemUTC().millis();
+		Clock c = Clock.systemUTC();
+		System.err.println(" ==> " + c.millis());
+		Instant i = c.instant();
+		System.err.println(" --> " + i.toEpochMilli());
+		
+		Clock c1 = Clock.systemDefaultZone();
+		System.out.println(" ==> " + c1.millis());
+		Instant i1 = c.instant();
+		System.out.println(" --> " + i1.toEpochMilli());
 	}
 
 	public static void tryDateTimeUtils() {
@@ -127,17 +164,20 @@ public class TryDateTime {
 		System.out.println(dateTime.format(DateTimeFormatter.BASIC_ISO_DATE));
 
 		// Parse examples
-		LocalDateTime dt = LocalDateTime.parse("27::°ËÔÂ::2014 21::39::48", DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss"));
+		LocalDateTime dt = LocalDateTime.parse("27::八月::2014 21::39::48", DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss"));
 		System.out.println("Default format after parsing = " + dt);
 		
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		// tryLocalDate();
 		// tryLocalTime();
 		// tryLocalDateTime();
-		tryInstant();
+		//tryInstant();
+		//tryDuration();
+		//tryPeriod();
 		//tryDateTimeUtils();
 		//tryParseDateTime();
+		tryClock();
 	}
 }

@@ -1,15 +1,15 @@
-Ϊʲô������Ҫ�µ�Java����/ʱ��API��
-	Ϊʲô������Ҫ����һ���µ�API����Java�У����е������ں�ʱ����ص������������⣬�����У�
-		# Java������/ʱ����Ķ��岢��һ�£���java.util��java.sql�İ��ж��������࣬�������ڸ�ʽ���ͽ���������java.text���ж��塣
-		# java.util.Dateͬʱ�������ں�ʱ�䣬��java.sql.Date���������ڣ���������java.sql�����������������������඼����ͬ�����֣��Ȿ������һ���ǳ�������ơ�
-		# ����ʱ�䡢ʱ�������ʽ���Լ���������û��һЩ��ȷ������ࡣ���ڸ�ʽ���ͽ���������������java.text.DateFormat�����࣬ͨ������£�SimpleDateFormat�౻���ڴ�������
-		# �е������඼�ǿɱ�ģ�������Ƕ������̰߳�ȫ�ģ�����Java��������������֮һ��
-		# �����ಢ���ṩ���ʻ���û��ʱ��֧�֣����Java������java.util.Calendar��java.util.TimeZone�࣬������ͬ�������������е����⡣
-		# ���е����ں��������ж���ķ���������һЩ���������⣬�����������Ѿ��������ر�����Java��Ҫһ����׳������/ʱ���ࡣ��Ҳ��ΪʲôJoda Time��Java����/ʱ�������а����˸������滻����Ҫ��ɫ��
+为什么我们需要新的Java日期/时间API？
+	为什么我们需要这样一个新的API？在Java中，现有的与日期和时间相关的类存在诸多问题，其中有：
+		# Java的日期/时间类的定义并不一致，在java.util和java.sql的包中都有日期类，此外用于格式化和解析的类在java.text包中定义。
+		# java.util.Date同时包含日期和时间，而java.sql.Date仅包含日期，将其纳入java.sql包并不合理。另外这两个类都有相同的名字，这本身就是一个非常糟糕的设计。
+		# 对于时间、时间戳、格式化以及解析，并没有一些明确定义的类。对于格式化和解析的需求，我们有java.text.DateFormat抽象类，通常情况下，SimpleDateFormat类被用于此类需求。
+		# 有的日期类都是可变的，因此他们都不是线程安全的，这是Java日期类最大的问题之一。
+		# 日期类并不提供国际化，没有时区支持，因此Java引入了java.util.Calendar和java.util.TimeZone类，但他们同样存在上述所有的问题。
+		# 现有的日期和日历类中定义的方法还存在一些其他的问题，但以上问题已经很清晰地表明：Java需要一个健壮的日期/时间类。这也是为什么Joda Time在Java日期/时间需求中扮演了高质量替换的重要角色。
 
-Java����/ʱ��API����������Ӧ�İ���
-	# java.time���������µ�Java����/ʱ��API�Ļ����������е���Ҫ�����඼���������һ���֣��磺LocalDate, LocalTime, LocalDateTime, Instant, Period, Duration�ȵȡ�������Щ�඼�ǲ��ɱ�ĺ��̰߳�ȫ�ģ��ھ����������£���Щ���ܹ���Ч�ش���һЩ����������
-	# java.time.chrono���������Ϊ��ISO������ϵͳ������һЩ������API�����ǿ�����չAbstractChronology���������Լ�������ϵͳ��
-	# java.time.format��������������ܹ���ʽ���ͽ�������ʱ�������࣬�ھ����������£����ǲ�Ӧ��ֱ��ʹ�����ǣ���Ϊjava.time������Ӧ�����Ѿ��ṩ�˸�ʽ���ͽ����ķ�����
-	# java.time.temporal�������������һЩʱ̬�������ǿ��������ҳ���������/ʱ������ĳ���ض����ڻ�ʱ�䣬����˵�������ҵ�ĳ�µĵ�һ������һ�졣����Էǳ����׵��ϳ���Щ��������Ϊ���Ƕ����С�withXXX���ĸ�ʽ��
-	# java.time.zone�������������֧�ֲ�ͬʱ���Լ���ع�����ࡣ
+Java日期/时间API包含以下相应的包。
+	# java.time包：这是新的Java日期/时间API的基础包，所有的主要基础类都是这个包的一部分，如：LocalDate, LocalTime, LocalDateTime, Instant, Period, Duration等等。所有这些类都是不可变的和线程安全的，在绝大多数情况下，这些类能够有效地处理一些公共的需求。
+	# java.time.chrono包：这个包为非ISO的日历系统定义了一些泛化的API，我们可以扩展AbstractChronology类来创建自己的日历系统。
+	# java.time.format包：这个包包含能够格式化和解析日期时间对象的类，在绝大多数情况下，我们不应该直接使用它们，因为java.time包中相应的类已经提供了格式化和解析的方法。
+	# java.time.temporal包：这个包包含一些时态对象，我们可以用其找出关于日期/时间对象的某个特定日期或时间，比如说，可以找到某月的第一天或最后一天。你可以非常容易地认出这些方法，因为它们都具有“withXXX”的格式。
+	# java.time.zone包：这个包包含支持不同时区以及相关规则的类。

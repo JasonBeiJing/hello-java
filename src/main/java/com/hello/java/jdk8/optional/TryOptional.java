@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Optional;
 
 /**
- * why optional £¿
+ * why optional ï¼Ÿ
  * String isocode = user.getAddress().getCountry().getIsocode().toUpperCase();
  * if (user != null) {
 	    Address address = user.getAddress();
@@ -37,36 +37,36 @@ public class TryOptional {
 	
 	public static void main(String[] args) throws Exception {
 		//Optional.empty(); 
-		//Optional.of(value) -> value²»ÄÜÎªnull£¬·ñÔò¿ÕÖ¸Õë£¬Ó¦¸ÃÃ÷È·¶ÔÏó²»ÎªnullµÄÊ±ºòÊ¹ÓÃ of()
-		//Optional.ofNullable(value); -> ¶ÔÏó¿ÉÄÜÊÇ null Ò²¿ÉÄÜÊÇ·Ç null,Èç¹ûÊÇnullÔòÍË»¯Îª Optional.empty();
+		//Optional.of(value) -> valueä¸èƒ½ä¸ºnullï¼Œå¦åˆ™ç©ºæŒ‡é’ˆï¼Œåº”è¯¥æ˜ç¡®å¯¹è±¡ä¸ä¸ºnullçš„æ—¶å€™ä½¿ç”¨ of()
+		//Optional.ofNullable(value); -> å¯¹è±¡å¯èƒ½æ˜¯ null ä¹Ÿå¯èƒ½æ˜¯é null,å¦‚æœæ˜¯nullåˆ™é€€åŒ–ä¸º Optional.empty();
 /************************************************************************************************************/
 		System.err.println(Optional.ofNullable("x"));
 		System.err.println(Optional.ofNullable(null));
 		System.err.println(Optional.ofNullable("x").orElse("z"));
 		System.err.println(Optional.ofNullable(null).orElse("z"));
 /************************************************************************************************************/
-		//µ±xÎªnullÊ±£¬ÒÔÏÂÁ½ÖÖelse²¢ÎŞÇø±ğ
+		//å½“xä¸ºnullæ—¶ï¼Œä»¥ä¸‹ä¸¤ç§elseå¹¶æ— åŒºåˆ«
 		User x = null;
 		User y = Optional.ofNullable(x).orElse(new User("sss", 18));
 		User z = Optional.ofNullable(x).orElseGet(() -> new User("ttt", 19));
 		System.err.println(y.getName() + "===>" + z.getName());
 		
-		//µ±x²»ÎªnullÊ±£¬orElseÀïÃæµÄÓï¾ä»á¼ÌĞøÖ´ĞĞ£¬¶øorElseGetÔò²»»á
+		//å½“xä¸ä¸ºnullæ—¶ï¼ŒorElseé‡Œé¢çš„è¯­å¥ä¼šç»§ç»­æ‰§è¡Œï¼Œè€ŒorElseGetåˆ™ä¸ä¼š
 		x = new User("niubi", 66);
 		Optional.ofNullable(x).orElse(new User("hello"));
 		Optional.ofNullable(x).orElseGet(() -> new User("hi"));
 		
 		//Optional.ofNullable(x).orElseThrow(() -> new Exception());
 /************************************************************************************************************/
-		//×ª»»Öµ
+		//è½¬æ¢å€¼
 		getUserName(null);
 /************************************************************************************************************/
-		//¹ıÂËÖµ
+		//è¿‡æ»¤å€¼
 		Optional<User> a = Optional.ofNullable(x).filter(n -> n.getName().equals("niubi"));
 		Optional<User> b = Optional.ofNullable(x).filter(n -> n.getName().equals("&&&&&"));
 		System.out.println(a.isPresent() + " < ===== >" +b.isPresent());
 /************************************************************************************************************/
-		//Optional ÀàµÄÁ´Ê½·½·¨
+		//Optional ç±»çš„é“¾å¼æ–¹æ³•
 		x.setAddress(Optional.ofNullable(new Address(Optional.ofNullable(new Country("DE")))));
 		String code1 = Optional.ofNullable(x).flatMap(n -> n.getAddress()).flatMap(m -> m.getC()).map(l -> l.getCode()).orElse("ZH");
 		
