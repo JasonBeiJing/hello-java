@@ -12,7 +12,7 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 // stream of elements +-----> |filter+-> |sorted+-> |map+-> |collect
-public class TryStream1 {
+public class TryStream {
 
 	private static void stream() {
 	
@@ -41,7 +41,7 @@ public class TryStream1 {
 		
 		//Collection
 		List<Object> s2 = Stream.empty().collect(Collectors.toList());
-		List<Object> s22 = Stream.empty().collect(Collectors.toCollection(() -> {return new LinkedList<>();}));
+		List<Object> s22 = Stream.empty().collect(Collectors.toCollection(() -> new LinkedList<>()));
 		System.err.println(s2.getClass().getCanonicalName()+"------LIST------->" + s22.getClass().getCanonicalName());
 		Set<Object> s3 = Stream.empty().collect(Collectors.toSet());
 		Set<Object> s33 = Stream.empty().collect(Collectors.toCollection(LinkedHashSet::new));
@@ -53,30 +53,51 @@ public class TryStream1 {
 	private static void useStream() {
 		List<String> list = Arrays.asList("a", "b", "c", "x", "y", "z");
 		
-		List<String> list2 = list.stream().filter(n -> { //过滤
-			return n.equals("a") || n.equals("x");
-		}).map(n -> {//操作数组元素
-			return n + "-heihei";
-		}).sorted((t1, t2) -> { //排序
-			return t1.compareTo(t2) * -1;
-		}).collect(Collectors.toList()); //进入新的集合
+		List<String> list2 = list.stream().filter(n -> n.equals("a") || n.equals("x")).map(n -> n + "-heihei").distinct().sorted((t1, t2) -> t1.compareTo(t2) * -1).collect(Collectors.toList()); 
 		System.err.println("Result List2 ===> " + list2);
 		
-		long count = list.stream().filter(n -> { //过滤
-			return n.equals("b") || n.equals("y");
-		}).distinct().count();  //去除重合元素，统计集合大小
+		long count = list.stream().filter(n -> n.equals("b") || n.equals("y")).distinct().count();  
 		System.err.println("Result List2's Size ===> " + count);
 		
-		List<String> list3 = list.parallelStream().filter(n -> { //并行操作集合元素
-			return true;
-		}).collect(Collectors.toList());
+		List<String> list3 = list.parallelStream().filter(n -> true).skip(3).collect(Collectors.toList());
 		System.out.println("Result List3 ===> " + list3);
+		
+		
+		System.err.println(list.stream().anyMatch(n -> n.equals("c")));
+		
+		List<User> users = Arrays.asList(new User(1), new User(2), new User(3), new User(1), new User(2));
+		Set<Integer> ids = users.parallelStream().map(n -> n.getId()).collect(Collectors.toSet());
+		System.out.println("Result IDS ===> " + ids);
 	}
 
 	
-	public static void main(String[] args) {
-		//stream();
-		useStream();
+	private static void mapAndFlatMap() {
+		String flatMap = "10001,1;10002,2";
+		Arrays.stream(flatMap.split(";")).flatMap(str -> Arrays.stream(str.split(","))).forEach(System.out::println);
+		
+		String map = "10001,1;10002,2";
+		Arrays.stream(map.split(";")).map(str -> str.split(",")).forEach(arr -> System.err.println(Arrays.toString(arr)));
 	}
 
+	public static void main(String[] args) {
+		stream();
+		System.out.println(" ========= ---- ==========  ========= ---- ==========  ========= ---- ==========  ========= ---- ==========");
+		useStream();
+		
+		mapAndFlatMap();
+	}
+		
+
+	static class User{
+		private int id;
+
+		public User(int id) {
+			super();
+			this.id = id;
+		}
+
+		public int getId() {
+			return id;
+		}
+	}
 }
