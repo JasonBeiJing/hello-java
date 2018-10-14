@@ -29,9 +29,9 @@ public class TryOptional {
 //	        return "Unknown";
 //	    return x.get().name;
 		
-		String x = Optional.ofNullable(user).map(n -> n.getName()).orElse("Unknown");
+		String x = Optional.ofNullable(user).map(n -> n.getName()).orElse("Unknown"); //map --> name可为null
 		System.err.println("====>>>> " + x);
-		String y = Optional.ofNullable(user).flatMap(n -> n.getPosition()).orElse("Unknown");
+		String y = Optional.ofNullable(user).flatMap(n -> n.getPosition()).orElse("Unknown"); //flatMap --> 不能再为null
 		System.err.println("====>>>> " + y);
 	}
 	
@@ -49,12 +49,13 @@ public class TryOptional {
 		User x = null;
 		User y = Optional.ofNullable(x).orElse(new User("sss", 18));
 		User z = Optional.ofNullable(x).orElseGet(() -> new User("ttt", 19));
-		System.err.println(y.getName() + "===>" + z.getName());
+		System.out.println(y.getName() + "===>" + z.getName());
 		
 		//当x不为null时，orElse里面的语句会继续执行，而orElseGet则不会
 		x = new User("niubi", 66);
 		Optional.ofNullable(x).orElse(new User("hello"));
 		Optional.ofNullable(x).orElseGet(() -> new User("hi"));
+		
 		
 		//Optional.ofNullable(x).orElseThrow(() -> new Exception());
 /************************************************************************************************************/
