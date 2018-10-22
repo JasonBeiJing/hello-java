@@ -64,10 +64,24 @@ public class TryStream {
 		
 		
 		System.err.println(list.stream().anyMatch(n -> n.equals("c")));
+		System.err.println(list.stream().allMatch(n -> !n.equals(null)));
+		System.err.println(list.stream().noneMatch(n->n.equals("java")));
 		
 		List<User> users = Arrays.asList(new User(1), new User(2), new User(3), new User(1), new User(2));
 		Set<Integer> ids = users.parallelStream().map(n -> n.getId()).collect(Collectors.toSet());
 		System.out.println("Result IDS ===> " + ids);
+		
+		List<String> list4 = Arrays.asList("1", "2", "3", "4", "5", "6");
+		int max = list4.stream().mapToInt(n -> Integer.valueOf(n)).max().orElse(666);
+		int min = list4.stream().mapToInt(n -> Integer.valueOf(n)).min().orElse(-666);
+		int sum = list4.stream().mapToInt(n -> Integer.valueOf(n)).sum();
+		System.err.println(max + " ===== " + min + " ==== " + sum);
+		
+		List<Integer> list5 = Arrays.asList(1, 2, 3, 4, 5, 6);
+		int max2 = list5.stream().reduce((m,n) -> Integer.max(m, n)).get();
+		int min2 = list5.stream().reduce(Integer::min).get();
+		int sum2 = list5.stream().reduce((m, n) -> m + n).get();
+		System.out.println(max2 + " ===== " + min2 + " ==== " + sum2);
 	}
 
 	
