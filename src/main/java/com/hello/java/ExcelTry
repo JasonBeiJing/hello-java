@@ -1,0 +1,95 @@
+Sub hjs()
+Dim irow, irow1, i, j As Integer
+Dim H As New Collection
+Dim sht As Worksheet
+Dim existsSht As Worksheet
+Dim existsShtName As String
+Dim MsgAns
+Dim A
+Dim ICol
+Dim wbkPath As String
+Set A = ActiveCell
+Application.ScreenUpdating = False
+Application.DisplayAlerts = False
+For Each sht In Sheets
+Next
+Worksheets(1).Copy Before:=Sheets(1)
+ICol = Application.InputBox("请输入你所要分的列：（如按B列分请输入2）", "提示：", "2", Type:=1)
+If ICol = "" Then Exit Sub
+Fneiwai = Application.InputBox("请确定是表内还是表外，A为表外，B为表内", "提示：", "A")
+If Fneiwai = "" Then Exit Sub
+On Error Resume Next
+    With Worksheets(1)
+        irow = .[a1].CurrentRegion.Rows.Count
+'        For i = 2 To irow
+'        .Cells(i, ICol).Select
+'           .Cells(i, ICol) = "'" & .Cells(i, ICol)
+'        Next
+        For i = 2 To irow
+           H.Add .Cells(i, ICol), CStr(.Cells(i, ICol))
+        Next
+        
+If Fneiwai = "A" Then
+wbkPath = Application.ActiveWorkbook.Path
+
+  For i = 1 To H.Count
+    .Cells.AutoFilter Field:=ICol, Criteria1:=H(i)
+    Set Nw = Workbooks.Add
+    .[a1].CurrentRegion.Copy [a1]
+    irow1 = [a1].CurrentRegion.Rows.Count
+    For t = 1 To [a1].CurrentRegion.Columns.Count
+        Cells(1, t).ColumnWidth = .Cells(1, t).ColumnWidth
+    Next t
+'    For j = 2 To irow1
+'       Cells(j, ICol) = Right(Cells(j, ICol), Len(Cells(j, ICol)))
+'    Next j
+    Nw.SaveAs Filename:=wbkPath & "\" & H(i) & ".xlsx"
+    Nw.Close True
+    .Cells.AutoFilter
+  Next i
+ElseIf Fneiwai = "B" Then
+  For i = 1 To H.Count
+  existsShtName = H(i).Text
+    Set existsSht = Worksheets(existsShtName)
+    If Not existsSht Is Nothing Then
+        MsgAns = MsgBox("工作表" & H(i) & "已存在，是否删除并继续？", vbYesNoCancel, "询问")
+        If MsgAns = vbYes Then
+            existsSht.Delete
+            .Cells.AutoFilter Field:=ICol, Criteria1:=H(i)
+            Sheets.Add(after:=Sheets(Sheets.Count)).Name = H(i)
+            .[a1].CurrentRegion.Copy Sheets(CStr(H(i))).[a1]
+            irow1 = [a1].CurrentRegion.Rows.Count
+            For t = 1 To [a1].CurrentRegion.Columns.Count
+                Cells(1, t).ColumnWidth = .Cells(1, t).ColumnWidth
+            Next t
+        
+        End If
+    Else
+            .Cells.AutoFilter Field:=ICol, Criteria1:=H(i)
+            Sheets.Add(after:=Sheets(Sheets.Count)).Name = H(i)
+            .[a1].CurrentRegion.Copy Sheets(CStr(H(i))).[B2]
+            irow1 = [a1].CurrentRegion.Rows.Count
+            For t = 1 To [a1].CurrentRegion.Columns.Count
+                Cells(1, t).ColumnWidth = .Cells(1, t).ColumnWidth
+            Next t
+    
+    End If
+    
+
+    '    For j = 2 To irow1
+    '       Cells(j, ICol) = Right(Cells(j, ICol), Len(Cells(j, ICol)))
+    '    Next j
+        .Cells.AutoFilter
+  Next i
+End If
+  
+  .Delete
+  End With
+  
+  A.Parent.Activate
+  A.Activate
+    
+Application.DisplayAlerts = True
+Application.ScreenUpdating = True
+End Sub
+
