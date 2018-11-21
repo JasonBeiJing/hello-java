@@ -36,7 +36,7 @@ public class AlibabaTest {
 						
 						//休息一下，否则执行太快，控制台数字会乱，单纯为了打印看出效果
 						try {
-							TimeUnit.MILLISECONDS.sleep(500);
+							TimeUnit.MILLISECONDS.sleep(200);
 						} catch (Exception e) {
 						}
 					} else {
@@ -74,7 +74,7 @@ public class AlibabaTest {
 						
 						//休息一下，否则执行太快，控制台数字会乱，单纯为了打印看出效果
 						try {
-							TimeUnit.MILLISECONDS.sleep(500);
+							TimeUnit.MILLISECONDS.sleep(200);
 						} catch (Exception e) {
 						}
 					} else {
