@@ -1,6 +1,7 @@
 package com.hello.java.nio;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
@@ -17,12 +18,14 @@ public class TrySelector {
 		System.err.println("SelectionKey.OP_ACCEPT ==== " + SelectionKey.OP_ACCEPT);
 		
 		Selector selector = Selector.open();
+		
 		SelectableChannel channel = DatagramChannel.open();
 		channel.configureBlocking(false);
 		System.out.println(" ---> " + selector.getClass().getCanonicalName() + " ---> " + channel.getClass().getCanonicalName());
-		
 		Object attachment = null;
 		SelectionKey key = channel.register(selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE, attachment);
+		
+		//Channels.new
 		
 		key.selector();
 		key.channel();
@@ -58,6 +61,9 @@ public class TrySelector {
 		selector.provider();
 		selector.select();
 		
+		ByteBuffer bb = ByteBuffer.allocate(1024);
+		bb.put("ABCDEFG".getBytes());
+		bb.position(6).limit(7);
+		
 	}
-
 }

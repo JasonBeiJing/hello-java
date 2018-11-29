@@ -9,6 +9,7 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class Server {
 
@@ -34,11 +35,9 @@ public class Server {
 				}
 				Set<SelectionKey> keys = selector.selectedKeys();
 				Iterator<SelectionKey> it = keys.iterator();
-
 				while (it.hasNext()) {
 					SelectionKey key = it.next();
 					it.remove();
-
 					if (key.isAcceptable()) {
 						// 创建新的连接，并且把连接注册到selector上，而且，
 						// 声明这个channel只对读操作感兴趣。
@@ -49,7 +48,6 @@ public class Server {
 						SocketChannel socketChannel = (SocketChannel) key.channel();
 						readBuff.clear();
 						socketChannel.read(readBuff);
-
 						readBuff.flip();
 						System.out.println("received : " + new String(readBuff.array()));
 						key.interestOps(SelectionKey.OP_WRITE);
@@ -58,6 +56,10 @@ public class Server {
 						SocketChannel socketChannel = (SocketChannel) key.channel();
 						socketChannel.write(writeBuff);
 						key.interestOps(SelectionKey.OP_READ);
+					}
+					try {
+						TimeUnit.SECONDS.sleep(3);
+					} catch (Exception e) {
 					}
 				}
 			}
