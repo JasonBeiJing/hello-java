@@ -5,10 +5,10 @@ import java.util.ServiceLoader;
 public class TestMain {
 
 	public static void main(String[] args) {
-		 ServiceLoader<TestSPI> loaders = ServiceLoader.load(TestSPI.class);
-	        for (TestSPI d : loaders) {
-	            d.test();
-	        }
+		ServiceLoader<TestSPI> loaders = ServiceLoader.load(TestSPI.class);
+		for (TestSPI d : loaders) {
+			d.test();
+		}
 	}
 
 }
