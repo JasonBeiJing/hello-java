@@ -4,18 +4,18 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>hello-java</groupId>
 	<artifactId>hello-java</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 
 	<distributionManagement>
 		<snapshotRepository>
 			<id>snapshots</id>
 			<name>wangshujiedembp-snapshots</name>
-			<url>http://127.0.0.1:8081/artifactory/libs-snapshot</url>
+			<url>http://127.0.0.1:8081/artifactory/hello-java-snapshot</url>
 		</snapshotRepository>
 		<repository>
 			<id>central</id>
 			<name>wangshujiedembp-releases</name>
-			<url>http://127.0.0.1:8081/artifactory/libs-release</url>
+			<url>http://127.0.0.1:8081/artifactory/hello-java-release</url>
 		</repository>
 	</distributionManagement>
 
@@ -32,3 +32,10 @@
 		</plugins>
 	</build>
 </project>
+
+<!-- 
+	Virtual :
+		libs-release(虚拟的) -> libs-release-local + jcenter : 上传下载，优先libs-release-local，然后jcenter
+		libs-snapshot(虚拟的) -> libs-snapshot-local + jcenter : 上传下载，优先libs-snapshot-local，然后jcenter
+	下载jar: maven local repository -> artifactory's libs-release repository(虚拟的) -> artifactory's libs-release-local -> artifactory's jcenter-cache repository -> artifactory's jcenter repository -> maven central repository
+ -->
