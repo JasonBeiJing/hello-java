@@ -12,6 +12,8 @@ import com.hello.java.tag.util.TagArgumentsDTOBuilder;
 public class TestProcess {
 
 	public static void main(String[] args) {
+		//根据国家分流，先试运行新解决方案
+		
 		//构建请求参数
 		TagArgumentsDTO tagArguments = TagArgumentsDTOBuilder.create().
 			addContractNumber("contractNumber").
