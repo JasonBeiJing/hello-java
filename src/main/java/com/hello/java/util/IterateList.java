@@ -18,14 +18,14 @@ public class IterateList {
 				System.err.println(i);
 			}
 		}else { // Iterator > ForEach			
-			for(Iterator<Integer> is = list.iterator(); is.hasNext() ;) {
+			Iterator<Integer> is = list.iterator();
+			for(; is.hasNext() ;) {
 				System.out.println(is.next());
 			}
 			
-//			Iterator<Integer> is = list.iterator();
-//			while(is.hasNext()) {
-//				System.out.println(is.next());
-//			}
+			while(is.hasNext()) {
+				System.out.println(is.next());
+			}
 		}
 		
 		//Actually ForEach's implementation is from Iterator, but with one more conversion, so a little bit slow
