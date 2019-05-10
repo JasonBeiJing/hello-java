@@ -1,6 +1,5 @@
-package com.huawei.it.acc.sign.template.impl;
+package com.hello.java.test;
 
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -10,7 +9,15 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 public class JavaTypeUtil {
     private static final Set<String> recognizableTypes = new HashSet<>(19);
