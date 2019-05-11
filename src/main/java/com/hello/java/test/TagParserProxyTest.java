@@ -9,7 +9,7 @@ import java.util.*;
 public class TagParserProxyTest {
 
     public static void main(String[] args) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        //System.err.println(JSONObject.toJSONString(getContracts()));
+        System.err.println(JSONObject.toJSONString(getContracts()));
 
         //String key = "id"; //最后
         //String key = "name"; //最后
@@ -20,7 +20,7 @@ public class TagParserProxyTest {
         //String key = "mapLines{HAHA}[number]";
         String key = "mapListLines{Y}[number]";
 
-        System.err.println("===> " + JSONObject.toJSONString(TagParserUtil.getTagValues(getContracts(), key)));
+        System.err.println("===> " + JSONObject.toJSONString(TagParserUtil.getTagValue(getContracts(), key)));
     }
 
 

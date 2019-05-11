@@ -47,7 +47,7 @@ public class JavaTypeUtil {
     }
 
 
-    public static boolean isJavaPrimitiveType(Field field) {
+    protected static boolean isRecognizableType(Field field) {
         Class<?> type = field.getType();
         if(type.isPrimitive() || recognizableTypes.contains(type.getCanonicalName()) || type.isEnum()) {
             return true;
@@ -55,12 +55,12 @@ public class JavaTypeUtil {
         return false;
     }
 
-    public static boolean isJavaCollection(Object value){
+    protected static boolean isCollection(Object value){
         return Objects.nonNull(value) && (value instanceof  Collection);
     }
 
-    public static boolean isSerializableJavaCollection(Field field, Object value){
-        if(isJavaCollection(value)){
+    protected static boolean isRecognizableCollection(Field field, Object value){
+        if(isCollection(value)){
            Type[] types =  getActualTypeArguments(field);
            if(ArrayUtils.isNotEmpty(types)){
                return recognizableTypes.contains(types[0].getTypeName());
@@ -69,12 +69,12 @@ public class JavaTypeUtil {
         return false;
     }
 
-    public static boolean isJavaMap(Object value){
-        return Objects.nonNull(value) && (value instanceof  Map);
+    protected static boolean isMap(Object value){
+        return Objects.nonNull(value) && (value instanceof Map);
     }
 
-    public static boolean isSerializableJavaMap(Field field, Object value){
-        if(isJavaMap(value)){
+    protected static boolean isRecognizableMap(Field field, Object value){
+        if(isMap(value)){
             Type[] types =  getActualTypeArguments(field);
             if(ArrayUtils.isNotEmpty(types)){
                 return recognizableTypes.contains(types[1].getTypeName());

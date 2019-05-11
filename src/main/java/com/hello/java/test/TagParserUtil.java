@@ -1,74 +1,53 @@
 package com.hello.java.test;
 
-import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.alibaba.fastjson.JSONObject;
+import java.lang.reflect.Field;
+import java.util.*;
 
 public class TagParserUtil {
 
 
-	public static <T> String getTagValue(T apiResponse,String tagResponseKey){
-		if(apiResponse instanceof Collection){
-			return getTagValues((Collection)apiResponse, tagResponseKey);
+	/**
+	 *
+	 * @param response API response value
+	 * @param responseSignature the tag response key defined in TAG module
+	 * @param <T> a basic Java pojo, or collection
+	 * @return
+	 */
+	public static <T> String getTagValue(T response, String responseSignature){
+		if(response instanceof Collection){
+			return getTagValue((Collection)response, responseSignature);
 		}else{
-			return getTagValues(Arrays.asList(apiResponse), tagResponseKey);
+			return getTagValue(Arrays.asList(response), responseSignature);
 		}
 	}
 
-	public static <T> String getTagValues(Collection<T> apiResponse,String tagResponseKey){
+	/**
+	 *
+	 * @param response API response value
+	 * @param responseSignature the tag response key defined in TAG module
+	 * @param <T> cannot be collection or map, just a basic Java POJO
+	 * @return
+	 */
+	public static <T> String getTagValue(Collection<T> response, String responseSignature){
 		Set<Object> results = new HashSet<>();
-		//A.B.C
-		String[] keys = StringUtils.split(tagResponseKey, ".");
+		String[] signatures = StringUtils.split(responseSignature, ".");
 		try {
-			for(T re:apiResponse){
-				Object result = re;
-				Field field = null;
+			for(T re:response){
 				String lastKey = null;
-				for (String key:keys){
-					field = findField(result, key);
-					Objects.requireNonNull(field, "Field not found with signature: " + key);
-					field.setAccessible(true);
+				Field field = null;
+				Object result = re;
+				for (String key:signatures){
 					lastKey = key;
+					field = findField(result, lastKey);
+					Objects.requireNonNull(field, "Field not found with signature: " + lastKey);
+					field.setAccessible(true);
 					result = field.get(result);
 				}
 				if(Objects.nonNull(result)){
-					if(JavaTypeUtil.isJavaPrimitiveType(field)){
-						results.add(result);
-					}else if(JavaTypeUtil.isJavaCollection(result)){
-						Collection<Object> collection = (Collection)result;
-						if(JavaTypeUtil.isSerializableJavaCollection(field, result)){
-							results.addAll(collection);
-						}else{
-							String subKey = lastKey.substring(lastKey.indexOf("[") + 1, lastKey.indexOf("]"));
-							results.add(getTagValues(collection, subKey));
-						}
-					}else if(JavaTypeUtil.isJavaMap(result)){
-						Map<Object, Object> map = (Map)result;
-						Object value = map.get(lastKey.substring(lastKey.indexOf("{") + 1, lastKey.indexOf("}")));
-						if(JavaTypeUtil.isSerializableJavaMap(field, result)){
-							results.add(value);
-						}else{
-							results.add(getTagValue(value, lastKey.substring(lastKey.indexOf("[") + 1, lastKey.indexOf("]"))));
-						}
-					}
-
-
+					fillUpResults(results, result, field, lastKey);
 				}
 			}
 		} catch (IllegalAccessException e) {
@@ -77,6 +56,27 @@ public class TagParserUtil {
 		return StringUtils.join(results, ",");
 	}
 
+	private static void fillUpResults(Set<Object> results, Object result, Field field, String lastKey){
+		if(JavaTypeUtil.isRecognizableType(field)){
+			results.add(result);
+		}else if(JavaTypeUtil.isCollection(result)){
+			Collection<Object> collection = (Collection)result;
+			if(JavaTypeUtil.isRecognizableCollection(field, result)){
+				results.addAll(collection);
+			}else{
+				String subKey = lastKey.substring(lastKey.indexOf("[") + 1, lastKey.indexOf("]"));
+				results.add(getTagValue(collection, subKey));
+			}
+		}else if(JavaTypeUtil.isMap(result)){
+			Map<Object, Object> map = (Map)result;
+			Object value = map.get(lastKey.substring(lastKey.indexOf("{") + 1, lastKey.indexOf("}")));
+			if(JavaTypeUtil.isRecognizableMap(field, result)){
+				results.add(value);
+			}else{
+				results.add(getTagValue(value, lastKey.substring(lastKey.indexOf("[") + 1, lastKey.indexOf("]"))));
+			}
+		}
+	}
 
 	private static Field findField(Object object, String signature){
 		if(Objects.nonNull(object)){
