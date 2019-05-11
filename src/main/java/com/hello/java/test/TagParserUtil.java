@@ -16,6 +16,7 @@ public class TagParserUtil {
 	 * @param <T> a basic Java pojo, or collection
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> String getTagValue(T response, String responseSignature){
 		if(response instanceof Collection){
 			return getTagValue((Collection)response, responseSignature);
@@ -56,6 +57,7 @@ public class TagParserUtil {
 		return StringUtils.join(results, ",");
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static void fillUpResults(Set<Object> results, Object result, Field field, String lastKey){
 		if(JavaTypeUtil.isRecognizableType(field)){
 			results.add(result);
