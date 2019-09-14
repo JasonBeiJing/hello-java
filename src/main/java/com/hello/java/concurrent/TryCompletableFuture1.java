@@ -4,6 +4,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 
 public class TryCompletableFuture1 {
@@ -29,5 +30,7 @@ public class TryCompletableFuture1 {
 		//exit
 		TimeUnit.SECONDS.sleep(2);
 		executor.shutdownNow();
+		
+		System.err.println(ForkJoinPool.getCommonPoolParallelism());
 	}
 }
