@@ -6,17 +6,12 @@ public class HelloServiceImpl implements HelloService {
 	public void hi() {
 		System.err.println(" ==========================  ");
 	}
-
-	@Override
-	public void hey() {
-		System.err.println(" **************************  ");
-	}
 	
 	public static void main(String[] args) {
 		HelloService hs = new HelloServiceImpl();
 		hs.hi();
-		hs.hey();
 		hs.hello("Beijing");
+		HelloService.hey("hello");
 	}
 
 }

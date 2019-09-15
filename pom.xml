@@ -30,6 +30,12 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.2.58</version>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -46,9 +52,8 @@
 	</build>
 </project>
 
-<!-- 
-	Virtual :
-		libs-release(虚拟的) -> libs-release-local + jcenter : 上传下载，优先libs-release-local，然后jcenter
-		libs-snapshot(虚拟的) -> libs-snapshot-local + jcenter : 上传下载，优先libs-snapshot-local，然后jcenter
-	下载jar: maven local repository -> artifactory's libs-release repository(虚拟的) -> artifactory's libs-release-local -> artifactory's jcenter-cache repository -> artifactory's jcenter repository -> maven central repository
- -->
+<!-- Virtual : libs-release(虚拟的) -> libs-release-local + jcenter : 上传下载，优先libs-release-local，然后jcenter 
+	libs-snapshot(虚拟的) -> libs-snapshot-local + jcenter : 上传下载，优先libs-snapshot-local，然后jcenter 
+	下载jar: maven local repository -> artifactory's libs-release repository(虚拟的) 
+	-> artifactory's libs-release-local -> artifactory's jcenter-cache repository 
+	-> artifactory's jcenter repository -> maven central repository -->

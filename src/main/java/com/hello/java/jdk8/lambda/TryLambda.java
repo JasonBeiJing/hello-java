@@ -7,7 +7,7 @@ package com.hello.java.jdk8.lambda;
  * (type1 arg1, type2 arg2...) -> { body }
  *
  */
-public class TryLambda1 {
+public class TryLambda {
 	public static void main(String args[]) {
 		//*****************************无参数**********************************//
 		HelloService helloService1 = () -> System.out.println("无参数，一条语句");
