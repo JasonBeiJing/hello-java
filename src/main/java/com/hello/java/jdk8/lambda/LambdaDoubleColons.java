@@ -11,11 +11,14 @@ import org.junit.Test;
 
 /**
  * 方法引用: 【实例::实例方法名】 【类::静态方法名】 【类::实例方法名】
+		①方法引用所引用的方法的参数列表与返回值类型，需要与函数式接口中抽象方法的参数列表和返回值类型保持一致！
+		②若Lambda的参数列表的第一个参数，是实例方法的调用者，第二个参数(或无参)是实例方法的参数时，格式： 【类::实例方法名】
  *
  * 构造器引用: 【类:new】
  * 
- * 数组引用:
+ * 数组引用: 【类[]::new】
  * 
+ * 方法引用可以理解为Lambda表达式的另外一种表现形式
  */
 public class LambdaDoubleColons {
 
@@ -23,22 +26,35 @@ public class LambdaDoubleColons {
 	@Test
 	public void test1() {
 		// -------------------------------------------------
-		//A.getName()的输入输出参数，需与Supplier.get()的输入输出参数保持一致
-		A a = new A("Beijing");
-		Supplier<String> s1 = () -> a.getName();
-		Supplier<String> s2 = a::getName;
-		System.out.println(s1.get() + " == 等价 == " + s2.get());
-
-		// -------------------------------------------------
 		PrintStream ps = System.out;
-		Consumer<String> x = ps::println;
-		x.accept("x");
+//		new Consumer<String>() {
+//			@Override
+//			public void accept(String s) {	
+//				ps.print(s);
+//			}
+//		};
+		Consumer<String> x = s -> ps.println(s);
+		x.accept("y");
 		// 等价
-		Consumer<String> y = s -> ps.print(s);
+		Consumer<String> y = ps::println;
 		y.accept("y");
 		// 等价
 		Consumer<String> z = System.out::println;
 		z.accept("z");
+		
+		// -------------------------------------------------
+		//A.getName()的输入输出参数，需与Supplier.get()的输入输出参数保持一致
+		A a = new A("Beijing");
+//		new Supplier<String>() {
+//			@Override
+//			public String get() {
+//				return a.getName();
+//			}
+//			
+//		};
+		Supplier<String> s1 = () -> a.getName();
+		Supplier<String> s2 = a::getName;
+		System.out.println(s1.get() + " == 等价 == " + s2.get());
 	}
 
 	//类::静态方法名
@@ -58,6 +74,9 @@ public class LambdaDoubleColons {
 		//如下两种声明方式等价，但是规则是：x是String中equals(实例方法，非static声明)的调用者,y是equals的参数时
 		BiPredicate<String, String> bp = (x, y) -> x.equals(y);
 		BiPredicate<String, String> bp2 = String::equals;
+		
+		Function<Integer, Long> f1 = x -> x.longValue();
+		Function<Integer, Long> f2 = Integer::longValue;
 	}
 
 	//构造器引用
