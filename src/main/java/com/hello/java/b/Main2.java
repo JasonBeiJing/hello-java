@@ -1,4 +1,4 @@
-package com.hello.java.a;
+package com.hello.java.b;
 
 import java.io.BufferedInputStream;
 import java.math.BigDecimal;

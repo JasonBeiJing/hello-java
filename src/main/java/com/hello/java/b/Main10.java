@@ -1,4 +1,4 @@
-package com.hello.java.a;
+package com.hello.java.b;
 
 import java.io.BufferedInputStream;
 import java.util.ArrayList;
@@ -19,6 +19,13 @@ public class Main10 {
 				insertPrefixTab(line, prefixNumber++);
 				System.out.println(join(line, ""));
 			}
+			
+			int prefixNumber2 = size - 1;
+			for (int i = 1; i <= size; i++) {
+				List<String> line = getNumbers(i);
+				insertPrefixTab(line, prefixNumber2--);
+				System.out.println(join(line, ""));
+			}
 		}
 	}
 
@@ -28,12 +35,12 @@ public class Main10 {
 			list1.add("\t" + i);
 		}
 
-		List<String> list2 = new ArrayList<>(size - 1);
+		List<String> list2 = new ArrayList<>();
 		int rs = list1.size() - 2;
 		for (int i = rs; i > -1; i--) {
 			list2.add(list1.get(i));
 		}
-		List<String> out = new ArrayList<>(size * 2 - 1);
+		List<String> out = new ArrayList<>();
 		out.addAll(list1);
 		out.addAll(list2);
 		return out;
